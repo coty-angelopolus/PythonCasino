@@ -1,9 +1,64 @@
+import random
+
 current_user = ""
+cards_out = []
 
 
 def Casino_TUI():
     print("*****************Casino TUI**************************")
     print("\n\nWhat would you like to do?")
+    print("\n1 - Blackjack\n2 - Poker\n3 - Quit")
+    usersel2 = input("\n> ")
+    if usersel2 == "1":
+        print("Loading Blackjack")
+        Blackjack()
+    elif usersel2 == "2":
+        print("Loading Poker")
+        Poker()
+    elif usersel2 == "3":
+        print("Goodbye!")
+        quit()
+
+def Blackjack():
+    print("Welcome to Blackjack!")
+    print("How much would you like to wager?")
+    user_bet_amount = input("\n> ")
+    try:
+        user_bet_amount = int(user_bet_amount)
+    except ValueError:
+        print("Invalid amount. Please enter a number.")
+        Blackjack()
+    if user_bet_amount > get_player_amount():
+        print("You don't have enough money to wager that amount")
+        Blackjack()
+
+    print("Great, let's play!")
+    print(card_handler())
+    print(card_handler())
+    print(card_handler())
+    user_cards = []
+    dealer_cards = []
+
+
+
+
+
+
+
+def card_handler():
+    global cards_out
+    random_number = random.randint(1, 52)
+    while random_number in cards_out:
+        random_number = random.randint(1, 52)
+    cards_out.append(random_number)
+    card = random_number
+    suits = ["hearts", "diamonds", "spades", "clubs"]
+    ranks = ["ace", "2", "3", "4", "5", "6", "7", "8", "9", "10", "jack", "queen", "king"]
+
+    suit_index = (card - 1) // 13  # Determine suit (0-3)
+    rank_index = (card - 1) % 13  # Determine rank (0-12)
+
+    return f"{ranks[rank_index]} of {suits[suit_index]}"
 
 
 
@@ -42,6 +97,7 @@ def get_player_amount():
         print("error loading player login file")
 
     return amount_return
+
 
 def account_login():
     global current_user
@@ -94,6 +150,17 @@ def account_login():
         print("Please enter Y or N")
         account_login()
 
+
+def decipher(identifier,text):
+        # 1 for decoding. 2 for encoding
+    if identifier == 1:
+        encoded = "".join(chr(ord(char) + 3) for char in text)  # Shift each letter by +3 ASCII
+        return encoded
+    elif identifier == 2:
+        decoded = "".join(chr(ord(char) - 3) for char in text)  # Reverse the shift (-3)
+        return decoded
+    else:
+        print("pick one or two")
 
 
 
